@@ -1,5 +1,19 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import { ref } from 'vue';
+
+const randomNumber = ref(null);
+
+async function fetchRandomNumber() {
+  try {
+    const response = await fetch('/api/random');
+    const data = await response.json();
+    randomNumber = data.number;
+  } catch (err) {
+    console.error("Error fetching random number:", err);
+  }
+}
+
 </script>
 
 <template>
@@ -11,6 +25,8 @@ import HelloWorld from './components/HelloWorld.vue'
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
+  <button @click="fetchRandomNumber">Get Random Number</button>
+  <p v-if="randomNumber">Random Number: {{ randomNumber }}</p>
   <HelloWorld msg="Vite + Vue + Rajat" />
 </template>
 
@@ -21,9 +37,11 @@ import HelloWorld from './components/HelloWorld.vue'
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
