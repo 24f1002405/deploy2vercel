@@ -8,7 +8,7 @@ async function fetchRandomNumber() {
   try {
     const response = await fetch('/api/random');
     const data = await response.json();
-    randomNumber = data.number;
+    randomNumber.value = data.number;
   } catch (err) {
     console.error("Error fetching random number:", err);
   }
